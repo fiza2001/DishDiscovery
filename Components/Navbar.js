@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
+import { Suspense } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,12 +8,8 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
-import { faHome } from "@fortawesome/free-solid-svg-icons";
-import {faInfoCircle} from "@fortawesome/free-solid-svg-icons";
-import { faUtensils } from "@fortawesome/free-solid-svg-icons";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { faBookOpen } from "@fortawesome/free-solid-svg-icons";
 import { usePathname, useSearchParams } from "next/navigation";
+import { SyncLoader } from "react-spinners";
 
 export default function Navbar() {
   const [isVisible, setIsVisible] = useState(false);
@@ -25,22 +22,11 @@ export default function Navbar() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const url = `${pathname}?${searchParams}`;
-  console.log(url)
-  
+  console.log(url);
+
   const isActive = (route) => {
-    return url === route ? 'active' : '';
+    return url === route ? "active" : "";
   };
-  // const url = `${pathname}?${searchParams}`;
-  //   console.log('navbar - ',url); 
-
-
-  //   if (url === '/?') {
-  //     const home = document.querySelector("#home-id");
-  //     home.classList.add('active');
-  //   } else if (url === '/about?') {
-  //     const abouturl = document.querySelector("#about-id");
-  //     abouturl.classList.add('active');
-  //   }
 
   const items = [
     "Indian",
@@ -82,10 +68,26 @@ export default function Navbar() {
   };
 
   return (
-    <>
+    <Suspense
+      fallback={
+        <div className="sweet-loading">
+          <SyncLoader color={"#222831"} size={15} margin={5} />
+        </div>
+      }
+    >
       <div className="nav-main">
         <div>
-          <Link href="/" style={{ color: "#EEEEEE", fontSize:'24px', textDecoration:'none' }} className="nav-title">Dish Discovery</Link>
+          <Link
+            href="/"
+            style={{
+              color: "#EEEEEE",
+              fontSize: "24px",
+              textDecoration: "none",
+            }}
+            className="nav-title"
+          >
+            Dish Discovery
+          </Link>
         </div>
         {/* <search */}
         <div>
@@ -126,56 +128,56 @@ export default function Navbar() {
         </div>
         <div className="nav-ul-div">
           <ul className="nav-ul-links">
-              <li style={{paddingTop:'15px'}} id="home-id">
-                <Link
-                  className={isActive('/?')}
-                  href="/"
-                  style={{ textDecoration: "none", color: "#EEEEEE" }}
-                >
-                  HOME
-                </Link>
-              </li>
-              <li style={{paddingTop:'15px'}} id="about-id">
-                <Link
-                  className={isActive('/about?')}
-                  href="/about"
-                  style={{ textDecoration: "none", color: "#EEEEEE" }}
-                >
-                  ABOUT
-                </Link>
-              </li>
-              <li style={{paddingTop:'15px'}} id="cuisines-id">
-                <Link
-                  className={isActive('/cuisines?')}
-                  href="/cuisines"
-                  style={{ textDecoration: "none", color: "#EEEEEE" }}
-                >
-                  CUISINES
-                </Link>
-              </li>
-              <li style={{paddingTop:'15px'}} id="create-id">
-                <Link
-                  className={isActive('/create?')}
-                  href="/create"
-                  style={{ textDecoration: "none", color: "#EEEEEE" }}
-                >
-                  CREATE RECIPE
-                </Link>
-              </li>
-              <li style={{paddingTop:'15px'}} id="myrecipe-id">
-                <Link
-                  className={isActive('/myrecipe?')}
-                  href="/myrecipe"
-                  style={{ textDecoration: "none", color: "#EEEEEE" }}
-                >
-                  MY RECIPE
-                </Link>
-              </li>
+            <li style={{ paddingTop: "15px" }} id="home-id">
+              <Link
+                className={isActive("/?")}
+                href="/"
+                style={{ textDecoration: "none", color: "#EEEEEE" }}
+              >
+                HOME
+              </Link>
+            </li>
+            <li style={{ paddingTop: "15px" }} id="about-id">
+              <Link
+                className={isActive("/about?")}
+                href="/about"
+                style={{ textDecoration: "none", color: "#EEEEEE" }}
+              >
+                ABOUT
+              </Link>
+            </li>
+            <li style={{ paddingTop: "15px" }} id="cuisines-id">
+              <Link
+                className={isActive("/cuisines?")}
+                href="/cuisines"
+                style={{ textDecoration: "none", color: "#EEEEEE" }}
+              >
+                CUISINES
+              </Link>
+            </li>
+            <li style={{ paddingTop: "15px" }} id="create-id">
+              <Link
+                className={isActive("/create?")}
+                href="/create"
+                style={{ textDecoration: "none", color: "#EEEEEE" }}
+              >
+                CREATE RECIPE
+              </Link>
+            </li>
+            <li style={{ paddingTop: "15px" }} id="myrecipe-id">
+              <Link
+                className={isActive("/myrecipe?")}
+                href="/myrecipe"
+                style={{ textDecoration: "none", color: "#EEEEEE" }}
+              >
+                MY RECIPE
+              </Link>
+            </li>
             <li>
               {session && session.user.name && session.user.image ? (
                 <ul className="nav-session">
-                  <div className="user-profile" style={{marginTop:'15%'}}>
-                    <div className="profile-image" onClick={toggleDetails} >
+                  <div className="user-profile" style={{ marginTop: "15%" }}>
+                    <div className="profile-image" onClick={toggleDetails}>
                       <img src={session.user.image} alt={session.user.name} />
                     </div>
                     {showDetails && (
@@ -183,11 +185,20 @@ export default function Navbar() {
                         className="profile-details"
                         style={{ display: showDetails ? "block" : "none" }}
                       >
-                        <p style={{textAlign:'center', paddingBottom:'10px', color:'#393E46'}}><FontAwesomeIcon icon={faUser} style={{paddingRight:'10px'}}/>{session.user.name}</p>
-                        <Link
-                          className="signout-btn"
-                          href="/api/auth/signout"
+                        <p
+                          style={{
+                            textAlign: "center",
+                            paddingBottom: "10px",
+                            color: "#393E46",
+                          }}
                         >
+                          <FontAwesomeIcon
+                            icon={faUser}
+                            style={{ paddingRight: "10px" }}
+                          />
+                          {session.user.name}
+                        </p>
+                        <Link className="signout-btn" href="/api/auth/signout">
                           Sign Out
                         </Link>
                       </div>
@@ -195,7 +206,7 @@ export default function Navbar() {
                   </div>
                 </ul>
               ) : (
-                <div style={{marginTop:'15%'}}>
+                <div style={{ marginTop: "15%" }}>
                   <Link
                     href="/api/auth/signin"
                     style={{
@@ -232,32 +243,60 @@ export default function Navbar() {
       {showList ? (
         <div className="bars-menu">
           <ul style={{ listStyleType: "none" }}>
-            <Link href="/" style={{ color: "#EEEEEE", textDecoration: "none", textAlign:'center', paddingBottom:'10px' }}>
-              <li className={isActive('/?')} >HOME</li>
+            <Link
+              href="/"
+              style={{
+                color: "#EEEEEE",
+                textDecoration: "none",
+                textAlign: "center",
+                paddingBottom: "10px",
+              }}
+            >
+              <li className={isActive("/?")}>HOME</li>
             </Link>
             <Link
               href="/about"
-              style={{ color: "#EEEEEE", textDecoration: "none", textAlign:'center', paddingBottom:'10px' }}
+              style={{
+                color: "#EEEEEE",
+                textDecoration: "none",
+                textAlign: "center",
+                paddingBottom: "10px",
+              }}
             >
-              <li className={isActive('/about?')} >ABOUT</li>
+              <li className={isActive("/about?")}>ABOUT</li>
             </Link>
             <Link
               href="/cuisines"
-              style={{ color: "#EEEEEE", textDecoration: "none", textAlign:'center', paddingBottom:'10px' }}
+              style={{
+                color: "#EEEEEE",
+                textDecoration: "none",
+                textAlign: "center",
+                paddingBottom: "10px",
+              }}
             >
-              <li className={isActive('/cuisines?')} >CUISINES</li>
+              <li className={isActive("/cuisines?")}>CUISINES</li>
             </Link>
             <Link
               href="/create"
-              style={{ color: "#EEEEEE", textDecoration: "none", textAlign:'center', paddingBottom:'10px' }}
+              style={{
+                color: "#EEEEEE",
+                textDecoration: "none",
+                textAlign: "center",
+                paddingBottom: "10px",
+              }}
             >
-              <li className={isActive('/create?')} >CREATE RECIPE</li>
+              <li className={isActive("/create?")}>CREATE RECIPE</li>
             </Link>
             <Link
               href="/myrecipe"
-              style={{ color: "#EEEEEE", textDecoration: "none", textAlign:'center', paddingBottom:'10px'}}
+              style={{
+                color: "#EEEEEE",
+                textDecoration: "none",
+                textAlign: "center",
+                paddingBottom: "10px",
+              }}
             >
-              <li className={isActive('/myrecipe?')} >MY RECIPE</li>
+              <li className={isActive("/myrecipe?")}>MY RECIPE</li>
             </Link>
             <li className="auth-li">
               {session && session.user.name && session.user.image ? (
@@ -269,13 +308,19 @@ export default function Navbar() {
                     {showDetails && (
                       <div
                         className="profile-details"
-                        style={{ display: showDetails ? "block" : "none", color:'black' }}
+                        style={{
+                          display: showDetails ? "block" : "none",
+                          color: "black",
+                        }}
                       >
-                        <p style={{marginBottom:'15px', color:'#222831'}}><FontAwesomeIcon icon={faUser} style={{paddingRight:'10px'}}/>{session.user.name}</p>
-                        <Link
-                          className="signout-btn"
-                          href="/api/auth/signout"
-                        >
+                        <p style={{ marginBottom: "15px", color: "#222831" }}>
+                          <FontAwesomeIcon
+                            icon={faUser}
+                            style={{ paddingRight: "10px" }}
+                          />
+                          {session.user.name}
+                        </p>
+                        <Link className="signout-btn" href="/api/auth/signout">
                           Sign Out
                         </Link>
                       </div>
@@ -302,7 +347,7 @@ export default function Navbar() {
           </ul>
         </div>
       ) : null}
-    </>
+    </Suspense>
   );
 }
 
