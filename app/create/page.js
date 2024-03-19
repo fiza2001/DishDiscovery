@@ -1,8 +1,9 @@
-"use client";
+'use client'
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { CreateForm } from "@/Components/CreateForm";
 import { SyncLoader } from "react-spinners";
+import { Suspense } from "react";
 
 export default function Create() {
   const { data: session, status } = useSession();
@@ -20,5 +21,9 @@ export default function Create() {
     return null;
   }
 
-  return <CreateForm />;
+  return (
+    <Suspense>
+      <CreateForm />;
+    </Suspense>
+  );
 }

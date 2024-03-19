@@ -10,7 +10,10 @@ const nextConfig = {
             pathname:"/a/**",
         }
         ]
-     }
+     },
+     experimental: {
+        missingSuspenseWithCSRBailout: false,
+      },
 };
 
 export default nextConfig;

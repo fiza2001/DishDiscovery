@@ -15,6 +15,7 @@ import { Great_Vibes } from "next/font/google";
 import { SyncLoader } from "react-spinners";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
+import { Suspense } from "react";
 
 const greatVibes = Great_Vibes({
   weight: "400",
@@ -119,193 +120,200 @@ export default function dish({ params }) {
   // };
 
   return (
-    <div style={{ marginTop: "5rem", textAlign: "center" }}>
-      <Head></Head>
-      <ul>
-        {dishItem.map((cuisine) => (
-          <div key={cuisine.slug}>
-            <div
-              style={{
-                backgroundColor: "rgb(228 233 240)",
-                marginLeft: "-30px",
-                paddingTop: "3%",
-                paddingBottom: "3%",
-              }}
-            >
-              <center>
-                <h1 style={{ color: "#222831" }}>{cuisine.title}</h1>
-              </center>
-              <div className="dish-desc">
-                <p>{cuisine.description}</p>
-              </div>
-              {session && cuisine.email === GetEmail ? (
-                <button className="dish-icon">
-                  <FontAwesomeIcon
-                    icon={faEdit}
-                    style={{ marginRight: "4px" }}
-                  />{" "}
-                  <Link
-                    className="edit"
-                    href={`/cuisines/${cuisine.category}/${
-                      cuisine.slug
-                    }/update?id=${encodeURIComponent(
-                      cuisine.sys.id
-                    )}&slug=${encodeURIComponent(
-                      cuisine.slug
-                    )}&title=${encodeURIComponent(
-                      cuisine.title
-                    )}&description=${encodeURIComponent(
-                      cuisine.description
-                    )}&ingredients=${encodeURIComponent(
-                      cuisine.ingredients
-                    )}&preparation=${encodeURIComponent(
-                      cuisine.preparation
-                    )}&calories=${encodeURIComponent(
-                      cuisine.calories
-                    )}&category=${encodeURIComponent(
-                      cuisine.category
-                    )}&image=${encodeURIComponent(cuisine.image.url)}
+    <Suspense>
+      <div style={{ marginTop: "5rem", textAlign: "center" }}>
+        <Head></Head>
+        <ul>
+          {dishItem.map((cuisine) => (
+            <div key={cuisine.slug}>
+              <div
+                style={{
+                  backgroundColor: "rgb(228 233 240)",
+                  marginLeft: "-30px",
+                  paddingTop: "3%",
+                  paddingBottom: "3%",
+                }}
+              >
+                <center>
+                  <h1 style={{ color: "#222831" }}>{cuisine.title}</h1>
+                </center>
+                <div className="dish-desc">
+                  <p>{cuisine.description}</p>
+                </div>
+                {session && cuisine.email === GetEmail ? (
+                  <button className="dish-icon">
+                    <FontAwesomeIcon
+                      icon={faEdit}
+                      style={{ marginRight: "4px" }}
+                    />{" "}
+                    <Link
+                      className="edit"
+                      href={`/cuisines/${cuisine.category}/${
+                        cuisine.slug
+                      }/update?id=${encodeURIComponent(
+                        cuisine.sys.id
+                      )}&slug=${encodeURIComponent(
+                        cuisine.slug
+                      )}&title=${encodeURIComponent(
+                        cuisine.title
+                      )}&description=${encodeURIComponent(
+                        cuisine.description
+                      )}&ingredients=${encodeURIComponent(
+                        cuisine.ingredients
+                      )}&preparation=${encodeURIComponent(
+                        cuisine.preparation
+                      )}&calories=${encodeURIComponent(
+                        cuisine.calories
+                      )}&category=${encodeURIComponent(
+                        cuisine.category
+                      )}&image=${encodeURIComponent(cuisine.image.url)}
                   &email=${encodeURIComponent(cuisine.email)}
                   &name=${encodeURIComponent(cuisine.name)}
                   &about=${encodeURIComponent(cuisine.about)}
                   &profilepic=${encodeURIComponent(cuisine.profilepic.url)}`}
-                    style={{ color: "#EEEEEE" }}
-                    onClick={handleUpdateClick}
-                  >
-                    {loader ? (
-                      <SyncLoader color={"#EEEEEE"} size={5} margin={5} />
-                    ) : (
-                      "Update"
-                    )}
-                  </Link>
-                </button>
-              ) : null}
-              {/* <button onClick={handleDownload(cuisine.title)} className="dish-icon">
+                      style={{ color: "#EEEEEE" }}
+                      onClick={handleUpdateClick}
+                    >
+                      {loader ? (
+                        <SyncLoader color={"#EEEEEE"} size={5} margin={5} />
+                      ) : (
+                        "Update"
+                      )}
+                    </Link>
+                  </button>
+                ) : null}
+                {/* <button onClick={handleDownload(cuisine.title)} className="dish-icon">
                 <FontAwesomeIcon
                   icon={faDownload}
                   style={{ color: "#EEEEEE", marginRight: "4px" }}
                 />
                 Download
               </button> */}
-              <button className="dish-icon" onClick={handleShare}>
-                <FontAwesomeIcon
-                  icon={faShare}
-                  style={{ color: "#EEEEEE", marginRight: "4px" }}
-                />
-                Share
-              </button>
-            </div>
-            <br />
-            <br />
-            <div className="dish-out">
-              <div>
-                <div style={{ marginBottom: "4%", marginLeft: "-3%" }}>
-                  <img
-                    src={cuisine.image.url}
-                    style={{ height: "60vh", width: "80vh", marginLeft: "-4%" }}
-                    alt={cuisine.slug}
+                <button className="dish-icon" onClick={handleShare}>
+                  <FontAwesomeIcon
+                    icon={faShare}
+                    style={{ color: "#EEEEEE", marginRight: "4px" }}
                   />
-                </div>
-                <div className="ingredients">
-                  <h3
-                    style={{
-                      color: "#EEEEEE",
-                      marginLeft: "-30px",
-                      backgroundColor: "#222831",
-                      paddingLeft: "40%",
-                      paddingRight: "40%",
-                    }}
-                  >
-                    Ingredients
-                  </h3>
-                  <p style={{ marginTop: "4%" }}>
-                    <ul style={{ listStyleType: "disc", color: "grey" }}>
-                      {cuisine.ingredients
-                        .split("-")
-                        .map(
-                          (ingredient, index) =>
-                            ingredient.trim() && (
-                              <li key={index}>{ingredient.trim()}</li>
-                            )
-                        )}
-                    </ul>
-                  </p>
-                </div>
-                <div className="instructions">
-                  <h3
-                    style={{
-                      color: "#EEEEEE",
-                      backgroundColor: "#222831",
-                      paddingLeft: "40%",
-                      paddingRight: "40%",
-                      marginLeft: "-30px",
-                      marginTop: "20px",
-                      marginBottom: "20px",
-                    }}
-                  >
-                    Instructions
-                  </h3>
-                  <p>
-                    <ol style={{ color: "grey", textAlign: "left" }}>
-                      {cuisine.preparation
-                        .split("-")
-                        .map(
-                          (ingredient, index) =>
-                            ingredient.trim() && (
-                              <li key={index}>{ingredient.trim()}</li>
-                            )
-                        )}
-                    </ol>
-                  </p>
-                </div>
-                <div className="calories">
-                  <h3
-                    style={{
-                      color: "#EEEEEE",
-                      backgroundColor: "#222831",
-                      paddingLeft: "40%",
-                      paddingRight: "40%",
-                      marginLeft: "-30px",
-                      marginTop: "20px",
-                      marginBottom: "20px",
-                    }}
-                  >
-                    Calories
-                  </h3>
-                  <p>
-                    <ul
+                  Share
+                </button>
+              </div>
+              <br />
+              <br />
+              <div className="dish-out">
+                <div>
+                  <div style={{ marginBottom: "4%", marginLeft: "-3%" }}>
+                    <img
+                      src={cuisine.image.url}
                       style={{
-                        textAlign: "left",
-                        listStyleType: "disc",
-                        color: "grey",
+                        height: "60vh",
+                        width: "80vh",
+                        marginLeft: "-4%",
+                      }}
+                      alt={cuisine.slug}
+                    />
+                  </div>
+                  <div className="ingredients">
+                    <h3
+                      style={{
+                        color: "#EEEEEE",
+                        marginLeft: "-30px",
+                        backgroundColor: "#222831",
+                        paddingLeft: "40%",
+                        paddingRight: "40%",
                       }}
                     >
-                      <li>{cuisine.calories} calories per 100g</li>
-                    </ul>
-                  </p>
+                      Ingredients
+                    </h3>
+                    <p style={{ marginTop: "4%" }}>
+                      <ul style={{ listStyleType: "disc", color: "grey" }}>
+                        {cuisine.ingredients
+                          .split("-")
+                          .map(
+                            (ingredient, index) =>
+                              ingredient.trim() && (
+                                <li key={index}>{ingredient.trim()}</li>
+                              )
+                          )}
+                      </ul>
+                    </p>
+                  </div>
+                  <div className="instructions">
+                    <h3
+                      style={{
+                        color: "#EEEEEE",
+                        backgroundColor: "#222831",
+                        paddingLeft: "40%",
+                        paddingRight: "40%",
+                        marginLeft: "-30px",
+                        marginTop: "20px",
+                        marginBottom: "20px",
+                      }}
+                    >
+                      Instructions
+                    </h3>
+                    <p>
+                      <ol style={{ color: "grey", textAlign: "left" }}>
+                        {cuisine.preparation
+                          .split("-")
+                          .map(
+                            (ingredient, index) =>
+                              ingredient.trim() && (
+                                <li key={index}>{ingredient.trim()}</li>
+                              )
+                          )}
+                      </ol>
+                    </p>
+                  </div>
+                  <div className="calories">
+                    <h3
+                      style={{
+                        color: "#EEEEEE",
+                        backgroundColor: "#222831",
+                        paddingLeft: "40%",
+                        paddingRight: "40%",
+                        marginLeft: "-30px",
+                        marginTop: "20px",
+                        marginBottom: "20px",
+                      }}
+                    >
+                      Calories
+                    </h3>
+                    <p>
+                      <ul
+                        style={{
+                          textAlign: "left",
+                          listStyleType: "disc",
+                          color: "grey",
+                        }}
+                      >
+                        <li>{cuisine.calories} calories per 100g</li>
+                      </ul>
+                    </p>
+                  </div>
+                </div>
+                <div className="abt-chef">
+                  <h4 style={{ color: "#222831" }}>About the chef</h4>
+                  <img
+                    className="chef-img"
+                    src={cuisine.profilepic.url}
+                    alt={cuisine.slug}
+                  />
+                  <div className="chef-intro">
+                    <h3 style={{ color: "#222831" }}>
+                      Hi! I'm {cuisine.name}.
+                    </h3>
+                    <h3
+                      className={greatVibes.className}
+                      style={{ color: "#00ADB5" }}
+                    >
+                      Nice to meet you
+                    </h3>
+                    <p>{cuisine.about}</p>
+                  </div>
                 </div>
               </div>
-              <div className="abt-chef">
-                <h4 style={{ color: "#222831" }}>About the chef</h4>
-                <img
-                  className="chef-img"
-                  src={cuisine.profilepic.url}
-                  alt={cuisine.slug}
-                />
-                <div className="chef-intro">
-                  <h3 style={{ color: "#222831" }}>Hi! I'm {cuisine.name}.</h3>
-                  <h3
-                    className={greatVibes.className}
-                    style={{ color: "#00ADB5" }}
-                  >
-                    Nice to meet you
-                  </h3>
-                  <p>{cuisine.about}</p>
-                </div>
-              </div>
-            </div>
-            {/* download content */}
-            {/* <div style={{ textAlign: "left" }} id="content-to-download">
+              {/* download content */}
+              {/* <div style={{ textAlign: "left" }} id="content-to-download">
                 <h1>{cuisine.title}</h1>
               <br />
               <p>{cuisine.about}</p>
@@ -334,9 +342,10 @@ export default function dish({ params }) {
               <h2>Calories</h2>
               <p>{cuisine.calories} per 100g</p>
             </div> */}
-          </div>
-        ))}
-      </ul>
-    </div>
+            </div>
+          ))}
+        </ul>
+      </div>
+    </Suspense>
   );
 }

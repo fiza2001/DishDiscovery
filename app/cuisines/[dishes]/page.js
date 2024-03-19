@@ -12,6 +12,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Suspense } from "react";
 
 export default function DishPage({ params }) {
   const { data: session, status } = useSession();
@@ -109,91 +110,95 @@ export default function DishPage({ params }) {
   }
 
   return (
-    <div style={{ marginTop: "5rem" }}>
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Delete Confirmation</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Are you sure want to delete {dishToDelete} ?</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Cancel
-          </Button>
-          {deleteLoader ? (
-            <Button variant="primary">
-              <SyncLoader color={"#EEEEEE"} size={5} margin={5} />
+    <Suspense>
+      <div style={{ marginTop: "5rem" }}>
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Delete Confirmation</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Are you sure want to delete {dishToDelete} ?</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Cancel
             </Button>
-          ) : (
-            <Button variant="primary" onClick={deleteEntry}>
-              Delete
+            {deleteLoader ? (
+              <Button variant="primary">
+                <SyncLoader color={"#EEEEEE"} size={5} margin={5} />
+              </Button>
+            ) : (
+              <Button variant="primary" onClick={deleteEntry}>
+                Delete
+              </Button>
+            )}
+          </Modal.Footer>
+        </Modal>
+        {/* delete success */}
+        <Modal show={done} onHide={handleClose}>
+          <Modal.Header>
+            <b>
+              <h5>
+                <FontAwesomeIcon icon={faCheck} className="success-icon" />
+                Success
+              </h5>
+            </b>
+          </Modal.Header>
+          <Modal.Body>
+            Entry for {dishToDelete} Deleted Successfully!
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" onClick={handleClose}>
+              Ok
             </Button>
-          )}
-        </Modal.Footer>
-      </Modal>
-      {/* delete success */}
-      <Modal show={done} onHide={handleClose}>
-        <Modal.Header>
-          <b>
-            <h5>
-              <FontAwesomeIcon icon={faCheck} className="success-icon" />
-              Success
-            </h5>
-          </b>
-        </Modal.Header>
-        <Modal.Body>Entry for {dishToDelete} Deleted Successfully!</Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={handleClose}>
-            Ok
-          </Button>
-        </Modal.Footer>
-      </Modal>
-      <center>
-        <h1 style={{ color: "#726A95", marginBottom: "2rem" }}>
-          {capitalizedQuery} Dishes
-        </h1>
-      </center>
+          </Modal.Footer>
+        </Modal>
+        <center>
+          <h1 style={{ color: "#726A95", marginBottom: "2rem" }}>
+            {capitalizedQuery} Dishes
+          </h1>
+        </center>
 
-      <div className="menu-main">
-        {dishCollection.items.map((dish) => (
-          <div key={dish.slug}>
-            {/* <Link
+        <div className="menu-main">
+          {dishCollection.items.map((dish) => (
+            <div key={dish.slug}>
+              {/* <Link
               href={`/cuisines/${getQuery}/${dish.slug}`}
               style={{ textDecoration: "none" }}
             > */}
-            <div key={dish.slug} className="menu-in-flex">
-              <div>
-                <img src={dish.image.url} alt="Image" className="menu-img" />
-              </div>
-              <div className="menu-desc">
-                <h5 style={{ color: "#726A95" }}>{dish.title}</h5>
-                <p className="description">{dish.description}</p>
-              </div>
-              {session && dish.email === GetEmail ? (
-                <div style={{ marginTop: "auto" }}>
-                  <button
-                    onClick={() =>
-                      handleDeleteShow(dish.sys.id, dish.category, dish.title)
-                    }
-                    className="delete-button"
-                    style={{ marginRight: "10px" }}
-                  >
-                    Delete
-                  </button>
+              <div key={dish.slug} className="menu-in-flex">
+                <div>
+                  <img src={dish.image.url} alt="Image" className="menu-img" />
                 </div>
-              ) : null}
-              <Link
-                href={`/cuisines/${getQuery}/${dish.slug}`}
-                style={{ textDecoration: "none", marginTop: "auto" }}
-              >
-                <button className="view-btn" style={{ marginTop: "5px" }}>
-                  View
-                </button>
-              </Link>
+                <div className="menu-desc">
+                  <h5 style={{ color: "#726A95" }}>{dish.title}</h5>
+                  <p className="description">{dish.description}</p>
+                </div>
+                {session && dish.email === GetEmail ? (
+                  <div style={{ marginTop: "auto" }}>
+                    <button
+                      onClick={() =>
+                        handleDeleteShow(dish.sys.id, dish.category, dish.title)
+                      }
+                      className="delete-button"
+                      style={{ marginRight: "10px" }}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                ) : null}
+                <Link
+                  href={`/cuisines/${getQuery}/${dish.slug}`}
+                  style={{ textDecoration: "none", marginTop: "auto" }}
+                >
+                  <button className="view-btn" style={{ marginTop: "5px" }}>
+                    View
+                  </button>
+                </Link>
+              </div>
+              {/* </Link> */}
             </div>
-            {/* </Link> */}
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
+    </Suspense>
   );
 }

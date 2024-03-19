@@ -1,9 +1,10 @@
 import MyRecipe from "@/Components/MyRecipe";
+import { Suspense } from "react";
 
 export default function myrecipe() {
   return (
-    <>
-        <MyRecipe />
-    </>
+    <Suspense>
+      <MyRecipe />
+    </Suspense>
   );
 }
