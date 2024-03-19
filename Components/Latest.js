@@ -30,18 +30,6 @@ const latestData = [
     img: "./images/l4.webp",
     desc: "Guacamole is a staple of Mexican cuisine. Although it is pretty simple to...",
   },
-  //   {
-  //     id:5,
-  //     title:'',
-  //     img:'',
-  //     desc:'',
-  //   },
-  //   {
-  //     id:6,
-  //     title:'',
-  //     img:'',
-  //     desc:'',
-  //   },
 ];
 
 export default function Latest() {
@@ -52,7 +40,7 @@ export default function Latest() {
     <Row className="justify-content-center align-items-center">
       {latestData.map((item) => (
         <Col key={item.id} xs={12} sm={6} md={4} lg={3} className="mb-4 d-flex justify-content-center align-items-center">
-          <Card style={{ width: '18rem' }}>
+          <Card style={{ width: '18rem'}} className='home-card'>
             <Card.Img variant="top" src={item.img} style={{ height: '200px', objectFit: 'cover' }} />
             <Card.Body className="text-left">
               <div>

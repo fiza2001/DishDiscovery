@@ -23,7 +23,8 @@ const greatVibes = Great_Vibes({
 
 export default function dish({ params }) {
   const { data: session, status } = useSession();
-  const [name, setName] = useState('')
+  const [loader, setLoader] = useState(false);
+  const [name, setName] = useState("");
   const router = useRouter();
   const getQuery = params.dish;
 
@@ -70,9 +71,16 @@ export default function dish({ params }) {
   if (status === "loading")
     return (
       <div className="sweet-loading">
-        <SyncLoader color={"#726a95"} size={15} margin={5} />
+        <SyncLoader color={"#222831"} size={15} margin={5} />
       </div>
     );
+
+  let GetEmail = "";
+  if (session) {
+    GetEmail = session.user.email;
+  } else {
+    GetEmail = "";
+  }
 
   if (!session) {
     router.push("/api/auth/signin");
@@ -91,6 +99,10 @@ export default function dish({ params }) {
       // Provide a fallback for unsupported browsers here
     }
   };
+
+  function handleUpdateClick() {
+    setLoader(true);
+  }
 
   // const handleDownload = () => {
   //   const input = document.getElementById('content-to-download');
@@ -126,38 +138,48 @@ export default function dish({ params }) {
               <div className="dish-desc">
                 <p>{cuisine.description}</p>
               </div>
-              <button className="dish-icon">
-                <FontAwesomeIcon icon={faEdit} style={{ marginRight: "4px" }} />{" "}
-                <Link
-                  className="edit"
-                  href={`/cuisines/${cuisine.category}/${
-                    cuisine.slug
-                  }/update?id=${encodeURIComponent(
-                    cuisine.sys.id
-                  )}&slug=${encodeURIComponent(
-                    cuisine.slug
-                  )}&title=${encodeURIComponent(
-                    cuisine.title
-                  )}&description=${encodeURIComponent(
-                    cuisine.description
-                  )}&ingredients=${encodeURIComponent(
-                    cuisine.ingredients
-                  )}&preparation=${encodeURIComponent(
-                    cuisine.preparation
-                  )}&calories=${encodeURIComponent(
-                    cuisine.calories
-                  )}&category=${encodeURIComponent(
-                    cuisine.category
-                  )}&image=${encodeURIComponent(cuisine.image.url)}
-                &email=${encodeURIComponent(cuisine.email)}
-                &name=${encodeURIComponent(cuisine.name)}
-                &about=${encodeURIComponent(cuisine.about)}
-                &profilepic=${encodeURIComponent(cuisine.profilepic.url)}`}
-                  style={{ color: "#EEEEEE" }}
-                >
-                  Update
-                </Link>
-              </button>
+              {session && cuisine.email === GetEmail ? (
+                <button className="dish-icon">
+                  <FontAwesomeIcon
+                    icon={faEdit}
+                    style={{ marginRight: "4px" }}
+                  />{" "}
+                  <Link
+                    className="edit"
+                    href={`/cuisines/${cuisine.category}/${
+                      cuisine.slug
+                    }/update?id=${encodeURIComponent(
+                      cuisine.sys.id
+                    )}&slug=${encodeURIComponent(
+                      cuisine.slug
+                    )}&title=${encodeURIComponent(
+                      cuisine.title
+                    )}&description=${encodeURIComponent(
+                      cuisine.description
+                    )}&ingredients=${encodeURIComponent(
+                      cuisine.ingredients
+                    )}&preparation=${encodeURIComponent(
+                      cuisine.preparation
+                    )}&calories=${encodeURIComponent(
+                      cuisine.calories
+                    )}&category=${encodeURIComponent(
+                      cuisine.category
+                    )}&image=${encodeURIComponent(cuisine.image.url)}
+                  &email=${encodeURIComponent(cuisine.email)}
+                  &name=${encodeURIComponent(cuisine.name)}
+                  &about=${encodeURIComponent(cuisine.about)}
+                  &profilepic=${encodeURIComponent(cuisine.profilepic.url)}`}
+                    style={{ color: "#EEEEEE" }}
+                    onClick={handleUpdateClick}
+                  >
+                    {loader ? (
+                      <SyncLoader color={"#EEEEEE"} size={5} margin={5} />
+                    ) : (
+                      "Update"
+                    )}
+                  </Link>
+                </button>
+              ) : null}
               {/* <button onClick={handleDownload(cuisine.title)} className="dish-icon">
                 <FontAwesomeIcon
                   icon={faDownload}
@@ -180,7 +202,7 @@ export default function dish({ params }) {
                 <div style={{ marginBottom: "4%", marginLeft: "-3%" }}>
                   <img
                     src={cuisine.image.url}
-                    style={{ height: "60vh", width: "80vh", marginLeft:'-4%' }}
+                    style={{ height: "60vh", width: "80vh", marginLeft: "-4%" }}
                     alt={cuisine.slug}
                   />
                 </div>
