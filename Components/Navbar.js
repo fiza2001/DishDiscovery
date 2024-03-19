@@ -91,8 +91,8 @@ export default function Navbar() {
         </div>
         {/* <search */}
         <div>
-          <div class="wrap">
-            <div class="search">
+          <div className="wrap">
+            <div className="search">
               <input
                 type="text"
                 className="searchTerm"
@@ -100,7 +100,7 @@ export default function Navbar() {
                 onChange={handleSearch}
                 placeholder="Search by cuisine"
               />
-              <button type="submit" class="searchButton">
+              <button type="submit" className="searchButton">
                 <FontAwesomeIcon icon={faSearch} size="sm" color="white" />
               </button>
             </div>
