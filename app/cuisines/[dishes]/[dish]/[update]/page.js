@@ -462,7 +462,6 @@ export default function Update() {
                       className="btn btn-primary"
                       disabled={loading}
                       style={{
-                        width: "20%",
                         backgroundColor: "#00ADB5",
                         color: "#EEEEEE",
                         fontWeight: "bold",

@@ -6,7 +6,7 @@ body{
 }
 /* create form */
 .create-main{
-  width: 30rem;
+  /* width: 30rem; */
   margin-left: 20rem;
 }
 .card-body{
