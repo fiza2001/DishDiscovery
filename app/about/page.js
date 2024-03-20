@@ -32,9 +32,11 @@ export default function About() {
 
   if (loading)
     return (
-      <div className="sweet-loading">
-        <SyncLoader color={"#222831"} size={15} margin={5} />
-      </div>
+      <Suspense>
+        <div className="sweet-loading">
+          <SyncLoader color={"#222831"} size={15} margin={5} />
+        </div>
+      </Suspense>
     );
   if (error) return <div>Error: {error.message}</div>;
 

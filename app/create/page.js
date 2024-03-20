@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { CreateForm } from "@/Components/CreateForm";
@@ -11,9 +11,11 @@ export default function Create() {
 
   if (status === "loading")
     return (
-      <div className="sweet-loading">
-        <SyncLoader color={"#222831"} size={15} margin={5} />
-      </div>
+      <Suspense>
+        <div className="sweet-loading">
+          <SyncLoader color={"#222831"} size={15} margin={5} />
+        </div>
+      </Suspense>
     );
 
   if (!session) {

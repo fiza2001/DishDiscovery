@@ -24,13 +24,15 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <SessionProvider>
       <body className={inter.className} style={{backgroundColor:'#EEEEEE'}}>
+      <Suspense fallback={null}>
         <Navbar/>
         {/* <AppBar/> */}
         {children}
-        <Suspense fallback={null}>
+        
           <NavigationEvents />
-        </Suspense>
+        
         <Footer suppressHydrationWarning={true}/>
+        </Suspense>
       </body>
       </SessionProvider>
     </html>

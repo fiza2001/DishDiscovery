@@ -24,9 +24,11 @@ export default function Cuisines() {
 
   if (loading)
     return (
-      <div className="sweet-loading">
-        <SyncLoader color={"#222831"} size={15} margin={5} />
-      </div>
+      <Suspense>
+        <div className="sweet-loading">
+          <SyncLoader color={"#222831"} size={15} margin={5} />
+        </div>
+      </Suspense>
     );
   if (error) return <p>Error: {error.message}</p>;
   const { cuisineCollection } = data;
