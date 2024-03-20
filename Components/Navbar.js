@@ -90,7 +90,7 @@ export default function Navbar() {
           </Link>
         </div>
         {/* <search */}
-        <div>
+        <div className="search-main">
           <div className="wrap">
             <div className="search">
               <input
@@ -240,9 +240,60 @@ export default function Navbar() {
           )}
         </div>
       </div>
+      {/* responsive nav */}
       {showList ? (
         <div className="bars-menu">
           <ul style={{ listStyleType: "none" }}>
+          <li>
+              {/* <search */}
+              <div>
+                <div className="wrap-res">
+                  <div className="search-res">
+                    <input
+                      type="text"
+                      className="searchTerm-res"
+                      value={searchQuery}
+                      onChange={handleSearch}
+                      placeholder="Search by cuisine"
+                    />
+                    <button type="submit" className="searchButton-res">
+                      <FontAwesomeIcon
+                        icon={faSearch}
+                        size="sm"
+                        color="white"
+                      />
+                    </button>
+                  </div>
+                </div>
+                {isVisible && (
+                  <ul
+                    ref={elementRef}
+                    className="search-list-res"
+                    id="element-to-hide"
+                  >
+                    {searchQuery &&
+                      (filteredItems.length === 0 ? (
+                        <li>No results found</li>
+                      ) : (
+                        <>
+                          {filteredItems.map((item, index) => (
+                            <Link
+                              style={{
+                                textDecoration: "none",
+                                color: "#393E46",
+                              }}
+                              key={index}
+                              href={`/cuisines/${item.toLowerCase()}`}
+                            >
+                              <li>{item}</li>
+                            </Link>
+                          ))}
+                        </>
+                      ))}
+                  </ul>
+                )}
+              </div>
+            </li>
             <Link
               href="/"
               style={{
@@ -252,7 +303,7 @@ export default function Navbar() {
                 paddingBottom: "10px",
               }}
             >
-              <li className={isActive("/?")}>HOME</li>
+              <li className={isActive("/?")} style={{marginTop:'10px'}}>HOME</li>
             </Link>
             <Link
               href="/about"
@@ -263,7 +314,7 @@ export default function Navbar() {
                 paddingBottom: "10px",
               }}
             >
-              <li className={isActive("/about?")}>ABOUT</li>
+              <li className={isActive("/about?")} style={{marginTop:'10px'}}>ABOUT</li>
             </Link>
             <Link
               href="/cuisines"
@@ -274,7 +325,7 @@ export default function Navbar() {
                 paddingBottom: "10px",
               }}
             >
-              <li className={isActive("/cuisines?")}>CUISINES</li>
+              <li className={isActive("/cuisines?")} style={{marginTop:'10px'}}>CUISINES</li>
             </Link>
             <Link
               href="/create"
@@ -285,7 +336,7 @@ export default function Navbar() {
                 paddingBottom: "10px",
               }}
             >
-              <li className={isActive("/create?")}>CREATE RECIPE</li>
+              <li className={isActive("/create?")} style={{marginTop:'10px'}}>CREATE RECIPE</li>
             </Link>
             <Link
               href="/myrecipe"
@@ -296,9 +347,9 @@ export default function Navbar() {
                 paddingBottom: "10px",
               }}
             >
-              <li className={isActive("/myrecipe?")}>MY RECIPE</li>
+              <li className={isActive("/myrecipe?")} style={{marginTop:'10px'}}>MY RECIPE</li>
             </Link>
-            <li className="auth-li">
+            <li className="auth-li" style={{marginTop:'10px'}}>
               {session && session.user.name && session.user.image ? (
                 <ul className="nav-session">
                   <div className="user-profile">

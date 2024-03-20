@@ -123,7 +123,7 @@ export default function dish({ params }) {
     <Suspense>
       <div style={{ marginTop: "5rem", textAlign: "center" }}>
         <Head></Head>
-        <ul>
+        <ul style={{paddingLeft:'0'}}>
           {dishItem.map((cuisine) => (
             <div key={cuisine.slug}>
               <div
@@ -200,14 +200,14 @@ export default function dish({ params }) {
               <br />
               <br />
               <div className="dish-out">
-                <div>
-                  <div style={{ marginBottom: "4%", marginLeft: "-3%" }}>
+                <div style={{width:'50%', margin:'auto'}}>
+                  <div style={{ marginBottom: "4%"}}>
                     <img
                       src={cuisine.image.url}
                       style={{
-                        height: "60vh",
-                        width: "80vh",
-                        marginLeft: "-4%",
+                        height: "30%",
+                        maxWidth: "80%",
+                        // marginLeft: "-4%",
                       }}
                       alt={cuisine.slug}
                     />
@@ -264,7 +264,8 @@ export default function dish({ params }) {
                       </ol>
                     </p>
                   </div>
-                  <div className="calories">
+                  {/* calories */}
+                  <div className="instructions">
                     <h3
                       style={{
                         color: "#EEEEEE",
@@ -279,13 +280,7 @@ export default function dish({ params }) {
                       Calories
                     </h3>
                     <p>
-                      <ul
-                        style={{
-                          textAlign: "left",
-                          listStyleType: "disc",
-                          color: "grey",
-                        }}
-                      >
+                      <ul style={{ color: "grey", textAlign: "left", listStyleType: "disc", }}>
                         <li>{cuisine.calories} calories per 100g</li>
                       </ul>
                     </p>

@@ -13,6 +13,7 @@ import Modal from "react-bootstrap/Modal";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Suspense } from "react";
+import Card from "react-bootstrap/Card";
 
 export default function DishPage({ params }) {
   const { data: session, status } = useSession();
@@ -156,14 +157,9 @@ export default function DishPage({ params }) {
             {capitalizedQuery} Dishes
           </h1>
         </center>
-
         <div className="menu-main">
           {dishCollection.items.map((dish) => (
             <div key={dish.slug}>
-              {/* <Link
-              href={`/cuisines/${getQuery}/${dish.slug}`}
-              style={{ textDecoration: "none" }}
-            > */}
               <div key={dish.slug} className="menu-in-flex">
                 <div>
                   <img src={dish.image.url} alt="Image" className="menu-img" />
@@ -189,12 +185,11 @@ export default function DishPage({ params }) {
                   href={`/cuisines/${getQuery}/${dish.slug}`}
                   style={{ textDecoration: "none", marginTop: "auto" }}
                 >
-                  <button className="view-btn" style={{ marginTop: "5px" }}>
+                  <button className="view-btn" style={{ marginTop: "5px", width:'66px' }}>
                     View
                   </button>
                 </Link>
               </div>
-              {/* </Link> */}
             </div>
           ))}
         </div>

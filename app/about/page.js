@@ -43,7 +43,7 @@ export default function About() {
 
   return (
     <Suspense>
-      <div style={{ zIndex: "3", marginTop: "2rem" }}>
+      <div style={{ zIndex: "3" }}>
         <div className="abt-clr">
           <div>
             <h1>About Us</h1>

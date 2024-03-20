@@ -468,7 +468,7 @@ export function CreateForm() {
                     type="submit"
                     className="btn btn-primary"
                     style={{
-                      width: "20%",
+                      // width: "20%",
                       backgroundColor: "#00ADB5",
                       fontWeight: "bold",
                       fontSize: "20px",

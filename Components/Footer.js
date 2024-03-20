@@ -6,6 +6,8 @@ const inter = Domine({ weight:'400', subsets: ["latin"] });
 
 
 export default function Footer() {
+  const getDate = new Date()
+  const getYear = getDate.getFullYear()
   return (
     <div style={{marginTop:'3%'}} className={inter.className}>
       <div className="pg-footer">
@@ -202,7 +204,7 @@ export default function Footer() {
               <p className="footer-copyright-text">
                 <Link className="footer-copyright-link" href="#" target="_self">
                   {" "}
-                  ©2024. | Designed By: Fiza Hussain. | All rights reserved.{" "}
+                  ©{getYear}. | Designed By: Fiza Hussain. | All rights reserved.{" "}
                 </Link>
               </p>
             </div>
