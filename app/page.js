@@ -1,11 +1,13 @@
-// import styles from "./page.module.css";
+import { Suspense } from "react";
 import Login from "@/Components/Homepage/Login";
 import HomePage from "@/Components/Homepage/HomePage";
 
 export default function Home() {
   return (
-    <main style={{backgroundColor:'#EEEEEE'}}>
-      <HomePage/>
-    </main>
+    <Suspense>
+      <main style={{ backgroundColor: "#EEEEEE" }}>
+        <HomePage />
+      </main>
+    </Suspense>
   );
 }
